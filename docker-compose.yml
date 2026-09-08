@@ -1,0 +1,58 @@
+name: lobby-control-room
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      TOURNAMENT_HUB_URL: ${TOURNAMENT_HUB_URL:-http://host.docker.internal:3000}
+      CONTROL_ROOM_KEY: ${CONTROL_ROOM_KEY:-}
+      CONTROL_ROOM_REACH: ${CONTROL_ROOM_REACH:-this-machine}
+      CONTROL_ROOM_OPERATOR_PASSWORD: ${CONTROL_ROOM_OPERATOR_PASSWORD:-}
+      # The container's namespace is the isolation here; what decides who can
+      # open the console is the address the console's port is published on.
+      CONTROL_ROOM_BIND: 0.0.0.0
+      SYNCSTART_URL: ${SYNCSTART_URL:-ws://syncstart-simulator:19000}
+      PLAY_PLAN_POLL_INTERVAL_SECONDS: ${PLAY_PLAN_POLL_INTERVAL_SECONDS:-2}
+      CONTROL_ROOM_QUEUE_DIR: /data/outbox
+    volumes:
+      - control-room-data:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:3002/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 18
+      start_period: 10s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend
+    restart: unless-stopped
+    # Bound to loopback, so the console is this machine's until somebody says
+    # otherwise. Set CONSOLE_BIND to 0.0.0.0 to drive it from a phone in the
+    # room, and set CONTROL_ROOM_OPERATOR_PASSWORD with it.
+    ports:
+      - "${CONSOLE_BIND:-127.0.0.1}:${CONSOLE_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+
+  syncstart-simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: syncstart-simulator
+    restart: unless-stopped
+    environment:
+      SYNCSTART_SIMULATOR_PORT: 19000
+
+volumes:
+  control-room-data:

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Lobby control room">
+  <!--
+    The console's mark: three faders, one per lane. Decorative identity, like a
+    medal, so its colour is deliberately outside the semantic palette and is not
+    the chosen accent — a brand that moved with the accent would stop being a
+    brand.
+  -->
+  <g fill="#4FB3C9">
+    <g opacity="0.35">
+      <rect x="12" y="10" width="7" height="44" rx="3.5" />
+      <rect x="28.5" y="10" width="7" height="44" rx="3.5" />
+      <rect x="45" y="10" width="7" height="44" rx="3.5" />
+    </g>
+    <rect x="7" y="34" width="17" height="11" rx="5.5" />
+    <rect x="23.5" y="14" width="17" height="11" rx="5.5" />
+    <rect x="40" y="27" width="17" height="11" rx="5.5" />
+  </g>
+</svg>

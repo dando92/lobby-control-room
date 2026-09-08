@@ -1,0 +1,32 @@
+{
+  "name": "lobby-control-room",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Venue-side control room for SyncStart lobbies, reporting runs to Tournament Hub",
+  "workspaces": [
+    "packages/syncstart-protocol",
+    "apps/api",
+    "apps/frontend",
+    "tools/syncstart-simulator"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=@lobby-control-room/syncstart-protocol && npm run build --workspace=@lobby-control-room/api && npm run build --workspace=@lobby-control-room/syncstart-simulator && npm run build --workspace=@lobby-control-room/frontend",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "dev": "concurrently --names api,frontend,simulator --prefix-colors yellow,cyan,gray \"npm run dev:api\" \"npm run dev:frontend\" \"npm run dev:simulator\"",
+    "dev:api": "npm run start:dev --workspace=@lobby-control-room/api",
+    "dev:frontend": "npm run dev --workspace=@lobby-control-room/frontend",
+    "dev:simulator": "npm run build --workspace=@lobby-control-room/syncstart-simulator && npm run start --workspace=@lobby-control-room/syncstart-simulator",
+    "up": "docker compose up --build --detach --wait",
+    "down": "docker compose down --remove-orphans",
+    "reset": "docker compose down --volumes --remove-orphans && npm run up",
+    "logs": "docker compose logs --follow --tail=200",
+    "status": "docker compose ps"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

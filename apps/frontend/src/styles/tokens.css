@@ -1,0 +1,120 @@
+/*
+ * The console follows Tournament Hub's design system rather than inventing
+ * one: the same neutral scale, the same state scale, and the same rule that
+ * governs colour — the interface is neutral, and colour reports what something
+ * is doing.
+ *
+ * The tokens are duplicated rather than imported, because this is a separate
+ * product in a separate repository. They are the published values of the hub's
+ * Design.md, held as RGB channels so a chosen accent can be written onto the
+ * root as channels too, and so a colour can be tinted with `rgb(… / 0.1)`.
+ */
+
+:root {
+  --ui-canvas: 241 242 244;
+  --ui-sidebar: 249 249 250;
+  --ui-surface: 255 255 255;
+  --ui-raised: 234 235 237;
+  --ui-row: 255 255 255;
+  --ui-selected: 231 234 235;
+  --ui-border: 205 209 214;
+  --ui-separator: 220 222 225;
+  --ui-border-strong: 168 173 180;
+  --ui-accent: 95 133 142;
+  --ui-accent-contrast: 255 255 255;
+  --ui-text: 32 38 44;
+  --ui-text-soft: 95 105 116;
+  --ui-text-mute: 95 105 116;
+
+  --state-idle: 138 146 158;
+  --state-running: 31 141 222;
+  --state-live: 124 58 237;
+  --state-pending: 194 118 26;
+  --state-done: 14 138 95;
+  --state-failed: 211 58 52;
+
+  --ui-shadow: 15 23 42;
+  --ui-shadow-alpha: 0.08;
+
+  /* Judgment colours are the game's own: never aligned to the semantic palette,
+     never adjusted for contrast. Legibility is the background's job, which is
+     why the live surfaces below stay dark in both themes. */
+  --judgment-fantastic-plus: 33 204 232;
+  --judgment-fantastic: 239 240 242;
+  --judgment-excellent: 226 156 24;
+  --judgment-great: 102 201 85;
+  --judgment-decent: 180 92 255;
+  --judgment-way-off: 201 133 94;
+  --judgment-miss: 255 48 48;
+
+  --live-screen: 15 30 42;
+  --live-failed: 46 15 20;
+  --live-text: 239 240 242;
+  --live-text-mute: 143 149 156;
+
+  color-scheme: light;
+}
+
+/* Two blocks apply the dark theme and both are needed: the media query serves
+   the "System" setting, which stores no attribute, and the attribute block
+   serves an explicit choice and wins over a light OS. Keep the bodies
+   identical. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ui-canvas: 7 9 11;
+    --ui-sidebar: 12 15 17;
+    --ui-surface: 18 21 24;
+    --ui-raised: 26 30 34;
+    --ui-row: 15 18 21;
+    --ui-selected: 30 35 39;
+    --ui-border: 43 49 55;
+    --ui-separator: 36 41 46;
+    --ui-border-strong: 67 75 84;
+    --ui-accent: 95 133 142;
+    --ui-accent-contrast: 255 255 255;
+    --ui-text: 239 240 242;
+    --ui-text-soft: 169 173 179;
+    --ui-text-mute: 143 149 156;
+
+    --state-idle: 123 131 142;
+    --state-running: 61 165 232;
+    --state-live: 167 139 250;
+    --state-pending: 224 163 60;
+    --state-done: 60 201 141;
+    --state-failed: 238 107 99;
+
+    --ui-shadow: 6 11 14;
+    --ui-shadow-alpha: 0.22;
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ui-canvas: 7 9 11;
+  --ui-sidebar: 12 15 17;
+  --ui-surface: 18 21 24;
+  --ui-raised: 26 30 34;
+  --ui-row: 15 18 21;
+  --ui-selected: 30 35 39;
+  --ui-border: 43 49 55;
+  --ui-separator: 36 41 46;
+  --ui-border-strong: 67 75 84;
+  --ui-accent: 95 133 142;
+  --ui-accent-contrast: 255 255 255;
+  --ui-text: 239 240 242;
+  --ui-text-soft: 169 173 179;
+  --ui-text-mute: 143 149 156;
+
+  --state-idle: 123 131 142;
+  --state-running: 61 165 232;
+  --state-live: 167 139 250;
+  --state-pending: 224 163 60;
+  --state-done: 60 201 141;
+  --state-failed: 238 107 99;
+
+  --ui-shadow: 6 11 14;
+  --ui-shadow-alpha: 0.22;
+
+  color-scheme: dark;
+}
